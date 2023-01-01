@@ -1,0 +1,45 @@
+{% extends 'base.html' %} 
+{% block title %}Blogs{% endblock title %}
+{% block searchbar %}
+<form action="/blog/search" class="form-inline" method="post">
+    {% csrf_token %}
+    <div class="input-group">
+        <input class="form-control mr-sm-2" type="text" name="word" placeholder="Search Blogs" aria-label="Search">
+        <div class="input-group-append ml-2">
+            <input class="btn btn-primary my-2 my-sm-0" type="submit" value="Search">
+        </div>
+    </div>
+</form>
+{% endblock searchbar %}
+{% block content %}
+
+<div class="container-fluid text-left">
+    <h2>
+      Blogs
+    </h2>
+    <p class="text">Your word inspire people.<br> Make the day a beautiful one.</p>
+    <a href="addBlog" class="btn btn-primary">Post Your Blog</a>
+</div>
+<div class="container-fluid">
+    <div class="row mt-3">
+        {% for data in blog %}
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{data.photo}}" alt="{{data.title}}">
+                    <h6>by {{data.user}}</h6>
+                    <div class="card-body">
+                        <h5 class="card-title">{{data.title}}</h5>
+                        <p class="card-text">{{data.content|slice:":200"}}</p>
+                    </div>
+                    <div class="card-body">
+                        {% load blog_tags %}
+                        <a href="updateBlog/{{ data|mongo_id }}" class="card-link">Edit</a>
+                        <a href="deleteBlog/{{ data|mongo_id }}" class="card-link">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

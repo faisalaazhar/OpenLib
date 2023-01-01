@@ -1,0 +1,45 @@
+{% extends 'base.html' %} 
+{% block title %}Home{% endblock title %} 
+{% block content %}
+<div class="container-fluid text-left">
+    <h2>
+      Libbrary
+    </h2>
+    <p class="text">“Good friends, good books, and a sleepy conscience: this is the ideal life.”
+        <br>― Mark Twain</p>
+    <a href="addBook" class="btn btn-primary">Add Book</a>
+</div>
+<br>
+<h2>
+    Popular Books
+</h2>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        {% for dict in result %}
+            <div col-6>
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="{{dict.COVER_PHOTO}}" class="img-fluid rounded-start" alt="...">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h5 class="card-title">Name: {{dict.TITLE}}</h5>
+                          <p class="card-text">Author: {{dict.AUTHOR}}</p>
+                          <h3 class="card-text">Price: {{dict.PRICE}} TK.</h3>
+                          <p class="card-text">Bio: {{dict.BOOK_DESCRIPTION}}</p>
+                          <p class="card-text">Total Pages: {{dict.NUM_OF_PAGES}}</p>
+                          <p class="card-text">In Stock: {{dict.NUM_OF_COPIES}}</p>
+                          <a href="#" class="btn btn-success">Borrow Now</a>
+                          <a href="/delete/{{dict.BOOK_ID}}" class="btn btn-success">Delete</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

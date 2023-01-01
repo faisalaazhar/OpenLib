@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+{% block title %}Blogs{% endblock title %}
+{% block searchbar %}
+<form action="/blog/search" class="form-inline" method="post">
+    {% csrf_token %}
+    <div class="input-group">
+        <input class="form-control mr-sm-2" type="text" name="word" placeholder="Search Blogs" aria-label="Search">
+        <div class="input-group-append ml-2">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
+        </div>
+    </div>
+</form>
+{% endblock searchbar %}
+{% block content %}
+
+<div class="container-fluid my-1">
+    <h2>Search results for '{{word}}'</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        {% for data in blog %}
+            <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{data.photo}}" alt="{{data.title}}">
+                    <span>by<h6>{{data.user}}</h6></span>
+                    <div class="card-body">
+                        <h5 class="card-title">{{data.title}}</h5>
+                        <p class="card-text">{{data.content}}</p>
+                    </div>
+                    <div class="card-body">
+                        {% load blog_tags %}
+                        <a href="updateBlog/{{ data|mongo_id }}" class="card-link">Edit</a>
+                        <a href="deleteBlog/{{ data|mongo_id }}" class="card-link">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

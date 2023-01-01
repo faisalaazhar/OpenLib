@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block title %}Add Book{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<h2>Book Details</h2>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <input type="file" name="photo" accept="image/*">
+    </div>
+    <div>
+        <input type="submit" value="Upload Photo" class="btn btn-success">
+    </div>
+</form>
+<form action="" method="post">
+    {% csrf_token %}
+    <div>
+
+        <label for="id_book_id">Book id:</label>
+        
+        <input type="number" name="book_id" step="any" required id="id_book_id">
+    </div>
+    
+    <div>
+        
+        <label for="id_title">Title:</label>
+        
+        <input type="text" name="title" maxlength="100" required id="id_title">
+    </div>
+    <div>
+        
+        <label for="id_publisher">Publisher:</label>
+        <input type="text" name="publisher" maxlength="200" required id="id_publisher">
+    </div>
+    <div>
+        
+        <label for="id_author">Author:</label>
+        
+        <input type="text" name="author" maxlength="100" required id="id_author">
+    </div>
+    <div>
+        
+        <label for="id_category">Category:</label>
+        
+        <input type="text" name="category" maxlength="200" id="id_category">
+    </div>
+    <div>
+        
+        <label for="id_num_of_copies">Num of copies:</label>
+        
+        <input type="number" name="num_of_copies" step="any" required id="id_num_of_copies">
+    </div>
+    <div>
+        
+        <label for="id_num_of_pages">Num of pages:</label>
+        
+        <input type="number" name="num_of_pages" step="any" required id="id_num_of_pages">
+    </div>
+     
+    <div>
+        
+        <label for="id_price">Price:</label>
+        
+        <input type="number" name="price" step="0.001" id="id_price">
+    </div>
+    
+    <div>
+        
+        <label for="id_book_description">Book description:</label>
+        
+        <input type="text" name="book_description" maxlength="3999" id="id_book_description">
+    </div>
+    <div>
+        
+        <label for="id_cover_photo">Cover photo:</label>         
+        <input type="text" name="cover_photo" value="{{file_url}}" maxlength="300" id="id_cover_photo">
+    </div>
+    <div>
+        
+        <input type="submit" value="Add Book" class="btn btn-success">
+    </div>
+
+
+</form>
+{% endblock content %}
