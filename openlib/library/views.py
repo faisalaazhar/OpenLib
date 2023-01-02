@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.db import connection
 from django.db import transaction
 from .models import Book
+import cx_Oracle
 
 from .forms import RegisterForm, BookForm
 from django.core.files.storage import FileSystemStorage
@@ -34,6 +35,10 @@ def sign_up(request):
     return render(request, 'registration/sign_up.html', {"form": form})
 
 
+def userAccount(request):
+    return render(request, "library/profile.html")
+
+
 @transaction.atomic
 def addBook(request):
     if request.method == "POST":
@@ -51,6 +56,23 @@ def addBook(request):
         form = BookForm()
 
     return render(request, 'library/addBook.html', {"form": form})
+
+
+def borrowBook(request, id):
+    errorMessage = ''
+    try:
+        cursor = connection.cursor()
+        result = cursor.callfunc('is_friday', bool)
+        if (not result):
+            count = cursor.callfunc('stock_count', float, [id])
+            if count > 0:
+                print(count)
+        else:
+            errorMessage += 'You cannot borrow books on friday.'
+            return render(request, 'library/home.html', {"errorMessage": errorMessage})
+    finally:
+        cursor.close()
+    return redirect("/profile")
 
 
 @transaction.atomic

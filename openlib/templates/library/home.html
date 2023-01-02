@@ -1,45 +1,64 @@
 {% extends 'base.html' %} 
 {% block title %}Home{% endblock title %} 
 {% block content %}
-<div class="container-fluid text-left">
-    <h2>
-      Libbrary
-    </h2>
-    <p class="text">“Good friends, good books, and a sleepy conscience: this is the ideal life.”
-        <br>― Mark Twain</p>
-    <a href="addBook" class="btn btn-primary">Add Book</a>
+
+<!-- Background image -->
+<div
+  class="container-fluid home-library bg-image d-flex justify-content-center align-items-center"
+  style="
+    background: url('/media/library-home.jpg') no-repeat center center;
+    background-size: cover;
+    height: 45vw;
+  "
+>
+  <div class="row">
+    <div class="col-12">
+      <h1 class="text-white text-center">Welcome to Online Library</h1>
+      <p class="text-white text-center display-6">“Good friends, good books, and a sleepy conscience: 
+        <br> this is the ideal life.”
+        <br><b class="text-dark">― Mark Twain</b>
+      </p>
+    </div>
+    <div class="col-12 text-center">
+      <a href="addBook" class="btn btn-dark btn-lg">Add Book</a>
+    </div>
+  </div>
+
 </div>
-<br>
-<h2>
-    Popular Books
-</h2>
-<br>
+<!-- Background image -->
+<div class="p-4 mb-2 bg-dark text-white text-center">
+  <h2>
+      Popular Books
+  </h2>
+</div>
 <div class="container-fluid">
-    <div class="row">
-        {% for dict in result %}
-            <div col-6>
-                <div class="card mb-3" style="max-width: 540px;">
-                    <div class="row g-0">
-                      <div class="col-md-4">
-                        <img src="{{dict.COVER_PHOTO}}" class="img-fluid rounded-start" alt="...">
-                      </div>
-                      <div class="col-md-8">
-                        <div class="card-body">
-                          <h5 class="card-title">Name: {{dict.TITLE}}</h5>
-                          <p class="card-text">Author: {{dict.AUTHOR}}</p>
-                          <h3 class="card-text">Price: {{dict.PRICE}} TK.</h3>
-                          <p class="card-text">Bio: {{dict.BOOK_DESCRIPTION}}</p>
-                          <p class="card-text">Total Pages: {{dict.NUM_OF_PAGES}}</p>
-                          <p class="card-text">In Stock: {{dict.NUM_OF_COPIES}}</p>
-                          <a href="#" class="btn btn-success">Borrow Now</a>
-                          <a href="/delete/{{dict.BOOK_ID}}" class="btn btn-success">Delete</a>
-                        </div>
-                      </div>
+  <div class="row">
+  {% for dict in result %}
+  <div class="col-4">
+    <div class="card mb-3">
+      <div class="row g-0">
+                  <div class="col-md-4">
+                    <img src="{{dict.COVER_PHOTO}}" class="img-fluid rounded" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">Name: {{dict.TITLE}}</h5>
+                      <p class="card-text">Author: {{dict.AUTHOR}}</p>
+                      <h3 class="card-text">Price: {{dict.PRICE}} TK.</h3>
+                      <p class="card-text">Bio: {{dict.BOOK_DESCRIPTION}}</p>
+                      <p class="card-text">Total Pages: {{dict.NUM_OF_PAGES}}</p>
+                      <p class="card-text">In Stock: {{dict.NUM_OF_COPIES}}</p>
+                      {% if dict.NUM_OF_PAGES > 0 %}
+                        <a href="/borrow/{{dict.BOOK_ID}}" class="btn btn-success">Borrow Now</a>
+                      {% endif %}
+                      <a href="/delete/{{dict.BOOK_ID}}" class="btn btn-danger">Delete</a>
                     </div>
                   </div>
+                </div>
+              </div>
             </div>
-        {% endfor %}
-    </div>
+              {% endfor %}
+          </div>
 </div>
 
 {% endblock content %}

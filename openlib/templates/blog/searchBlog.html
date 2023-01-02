@@ -17,21 +17,21 @@
     <h2>Search results for '{{word}}'</h2>
 </div>
 
-<div class="container">
+<div class="container-fluid mb-3">
     <div class="row">
         {% for data in blog %}
             <div class="col-3">
                 <div class="card" style="width: 18rem;">
                     <img class="card-img-top" src="{{data.photo}}" alt="{{data.title}}">
-                    <span>by<h6>{{data.user}}</h6></span>
                     <div class="card-body">
+                        <h6>by {{data.user}}</h6>
                         <h5 class="card-title">{{data.title}}</h5>
                         <p class="card-text">{{data.content}}</p>
                     </div>
                     <div class="card-body">
                         {% load blog_tags %}
-                        <a href="updateBlog/{{ data|mongo_id }}" class="card-link">Edit</a>
-                        <a href="deleteBlog/{{ data|mongo_id }}" class="card-link">Delete</a>
+                        <a href="updateBlog/{{ data|mongo_id }}" class="btn btn-primary">Edit</a>
+                        <a href="deleteBlog/{{ data|mongo_id }}" class="btn btn-danger">Delete</a>
                     </div>
                 </div>
             </div>
