@@ -1,7 +1,6 @@
 {% extends 'base.html' %} 
 {% block title %}Home{% endblock title %} 
 {% block content %}
-
 <!-- Background image -->
 <div
   class="container-fluid home-library bg-image d-flex justify-content-center align-items-center"
@@ -47,9 +46,11 @@
                       <h3 class="card-text">Price: {{dict.PRICE}} TK.</h3>
                       <p class="card-text">Bio: {{dict.BOOK_DESCRIPTION}}</p>
                       <p class="card-text">Total Pages: {{dict.NUM_OF_PAGES}}</p>
-                      <p class="card-text">In Stock: {{dict.NUM_OF_COPIES}}</p>
-                      {% if dict.NUM_OF_PAGES > 0 %}
+                      {% if dict.NUM_OF_COPIES > 0 %}
+                        <p class="card-text">In Stock: {{dict.NUM_OF_COPIES}}</p>
                         <a href="/borrow/{{dict.BOOK_ID}}" class="btn btn-success">Borrow Now</a>
+                      {% else %}
+                        <p class="card-text text-danger">Out of Stock</p>
                       {% endif %}
                       <a href="/delete/{{dict.BOOK_ID}}" class="btn btn-danger">Delete</a>
                     </div>

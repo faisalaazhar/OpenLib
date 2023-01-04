@@ -1,7 +1,0 @@
-to run this
-
-cmd:
-cd openlib
-py manage.py runserver
-
-Then go through the webpages

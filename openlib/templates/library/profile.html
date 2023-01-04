@@ -1,6 +1,46 @@
 {% extends 'base.html' %} 
 {% block title %}Profile{% endblock title %} 
 {% block content %}
-<p>Hi {{user.first_name}}
+
+<div class="p-4 mb-2 bg-info">
+    <h3 >Hi, {{user.first_name}}</h3>
+    <h2>
+        Your Book Borrowing History
+    </h2>
+  </div>
+<table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">Book ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Price</th>
+        <th scope="col">Borrow Cost</th>
+        <th scope="col">Fines</th>
+        <th scope="col">Date Borrowed</th>
+        <th scope="col">Date Returned</th>
+        <th scope="col">Total Cost</th>
+      </tr>
+    </thead>
+    {% for data in result %}
+      <tr>
+        <td scope="col"><img src="{{data.COVER_PHOTO}}" class="img-fluid rounded" alt="..." style="width:50px"></td>
+        <td scope="col">{{data.BOOK_ID}}, {{data.BORROW_ID}}</td>
+        <td scope="col">{{data.TITLE}}</td>
+        <td scope="col">{{data.PRICE}} TK</td>
+        <td scope="col">{{data.BORROW_COST}} TK</td>
+        <td scope="col">{{data.FINES}}</td>
+        <td scope="col">{{data.DATE_BORROWED}}</td>
+        <td scope="col">
+            {% if data.DATE_RETURNED is not none %}
+                {{data.DATE_RETURNED}}</td>
+            {% else %}
+                <a href="/returnBook/{{data.BORROW_ID}}" class="btn btn-danger">Return Book</a>
+            {% endif %}
+        <td scope="col">{{data.TOTAL_COST}} TK</th>
+      </tr>
+      {% endfor%}
+    </tbody>
+  </table>
 
 {% endblock content %}

@@ -36,7 +36,17 @@ def sign_up(request):
 
 
 def userAccount(request):
-    return render(request, "library/profile.html")
+    user_id = request.user.id
+    try:
+        print(user_id)
+        cursor = connection.cursor()
+        if request.method == 'GET':
+            cursor.execute(
+                "select book_id, borrow_id, title, cover_photo, price, borrow_cost, fines, date_borrowed, date_returned, total_cost  from borrow_book natural join book_transaction natural join book where user_id = 1")
+        result = dictfetchall(cursor)
+    finally:
+        cursor.close()
+    return render(request, "library/profile.html", {'result': result})
 
 
 @transaction.atomic
@@ -59,20 +69,36 @@ def addBook(request):
 
 
 def borrowBook(request, id):
+    book_id = id
+    user_id = request.user.id
     errorMessage = ''
     try:
         cursor = connection.cursor()
         result = cursor.callfunc('is_friday', bool)
         if (not result):
-            count = cursor.callfunc('stock_count', float, [id])
+            count = cursor.callfunc('stock_count', float, [book_id])
             if count > 0:
-                print(count)
+                cursor.callproc('insert_book_transaction', [user_id, book_id])
+                connection.commit()
         else:
             errorMessage += 'You cannot borrow books on friday.'
             return render(request, 'library/home.html', {"errorMessage": errorMessage})
     finally:
         cursor.close()
     return redirect("/profile")
+
+
+def returnBook(request, id):
+    borrow_id = id
+    message = ''
+    try:
+        cursor = connection.cursor()
+        cursor.callproc('return_book', [borrow_id])
+        connection.commit()
+    finally:
+        message += 'Book Returned'
+        cursor.close()
+    return redirect("/profile", {'message': message})
 
 
 @transaction.atomic
